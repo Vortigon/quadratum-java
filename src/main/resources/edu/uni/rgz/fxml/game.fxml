@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="gameRoot" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.uni.rgz.controllers.GameController">
+    <Pane fx:id="paneWithGrid" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="560.0" AnchorPane.topAnchor="0.0" />
+    <Pane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="720.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+         <Label layoutX="50.0" layoutY="100.0" prefWidth="180.0" text="Player 1">
+            <font>
+               <Font size="32.0" />
+            </font>
+         </Label>
+         <Label layoutX="330.0" layoutY="100.0" prefWidth="180.0" text="Player 2">
+            <font>
+               <Font size="32.0" />
+            </font>
+         </Label>
+         <Label fx:id="player1ScoreLabel" layoutX="50.0" layoutY="160.0" prefWidth="180.0" text="Score: 0" textAlignment="CENTER">
+            <font>
+               <Font size="32.0" />
+            </font>
+         </Label>
+         <Label fx:id="player2ScoreLabel" layoutX="330.0" layoutY="160.0" prefWidth="180.0" text="Score: 0" textAlignment="CENTER">
+            <font>
+               <Font size="32.0" />
+            </font>
+         </Label>
+         <Label fx:id="turnLabel" layoutX="180.0" layoutY="250.0" text="Turn: Player 1">
+            <font>
+               <Font size="24.0" />
+            </font>
+         </Label>
+         <Button layoutX="180.0" layoutY="400.0" mnemonicParsing="false" onAction="#exit" prefHeight="75.0" prefWidth="180.0" text="Exit">
+            <font>
+               <Font size="36.0" />
+            </font>
+         </Button>
+         <Label fx:id="diceLabel" layoutX="180.0" layoutY="300.0" text="Dice: ">
+            <font>
+               <Font size="24.0" />
+            </font>
+         </Label>
+         <Label fx:id="winnerLabel" layoutX="180.0" layoutY="350.0" prefWidth="180.0" text="Winner: Player " visible="false">
+            <font>
+               <Font size="24.0" />
+            </font>
+         </Label>
+      </children>
+      <padding>
+         <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+      </padding>
+    </Pane>
+</AnchorPane>
