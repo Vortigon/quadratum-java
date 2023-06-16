@@ -14,15 +14,21 @@ public class MenuController {
 	@FXML private Button cpuMatchButton;
 	@FXML private Button localMatchButton;
 	@FXML private Button exitButton;
+	@FXML private Button createServerButton;
+	@FXML private Button joinServerButton;
 	private GameController gameController;
 
-
-//	public void setGameRoot(AnchorPane gameRoot) {
-//		this.gameRoot = gameRoot;
-//	}
-//
 	public void setGameController(GameController gameController) {
 		this.gameController = gameController;
+	}
+
+	@FXML
+	public void onCreateServerButtonClick() {
+	}
+
+	@FXML
+	public void onJoinServerButtonClick() {
+
 	}
 
 	@FXML
