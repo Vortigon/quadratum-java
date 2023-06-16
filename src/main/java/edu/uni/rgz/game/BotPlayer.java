@@ -1,8 +1,5 @@
 package edu.uni.rgz.game;
 
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
-
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -46,17 +43,13 @@ public class BotPlayer extends Player {
 	public void updateInfo(Board board, Turn newTurn, int dice1, int dice2) {
 		for (int i = 0; i < availableCells.size();) {
 			int row = availableCells.get(i).row, col = availableCells.get(i).col;
-//			System.out.println("ЧЕКАЕМ");
-//			boolean value = ;
-//			System.out.println(value);
 			if (!board.cellHasTurns(row, col, getId(), dice1, dice2)) {
-//				System.out.println("" + row + " " + col);
 				availableCells.remove(i);
 			} else {
 				++i;
 			}
 		}
-		System.out.println("removed cells after turn, remain: " + availableCells.size());
+
 		if (newTurn.getPlayerId() == this.getId()) {
 			int col1 = Math.min(newTurn.getBeginCellColumn(), newTurn.getEndCellColumn());
 			int col2 = Math.max(newTurn.getBeginCellColumn(), newTurn.getEndCellColumn());
@@ -81,7 +74,6 @@ public class BotPlayer extends Player {
 					availableCells.add(new Cell(row2+1, col));
 				}
 			}
-			System.out.println("added cells after bot's turn");
 		}
 	}
 
@@ -96,13 +88,13 @@ public class BotPlayer extends Player {
 		endCells[5] = new Cell(beginCell.row+dice2-1, beginCell.col-dice1+1);
 		endCells[6] = new Cell(beginCell.row-dice2+1, beginCell.col-dice1+1);
 		endCells[7] = new Cell(beginCell.row-dice2+1, beginCell.col+dice1-1);
-		System.out.println("here");
+
 		for (int i = 0; i < endCells.length; ++i) {
 			int endCell = ThreadLocalRandom.current().nextInt(0, endCells.length-i);
 			lastTurn = new Turn(getId(), beginCell.row, beginCell.col,
 					endCells[endCell].row, endCells[endCell].col, dice1, dice2);
 			if (board.checkTurn(lastTurn)) {
-				System.out.println(lastTurn);
+
 				break;
 			} else {
 				if (endCell < endCells.length-1) {

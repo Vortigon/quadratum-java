@@ -5,12 +5,10 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Game {
 	private Board board;
-//	private ArrayList<Player> players;
 	private Player player1, player2;
 	private Player currentPlayer;
 	private SimpleIntegerProperty playerIdTurnProperty = new SimpleIntegerProperty();
@@ -29,10 +27,6 @@ public class Game {
 		player1.setColor(Color.PURPLE);
 		player2.setId(1);
 		player2.setColor(Color.CRIMSON);
-//		players.get(0).setId(0);
-//		players.get(0).setColor(Color.PURPLE);
-//		players.get(1).setId(1);
-//		players.get(1).setColor(Color.CRIMSON);
 		board = new Board(width, height, 0, 1);
 		this.controller = controller;
 		if (player1 instanceof BotPlayer bot) { bot.setupUpLeftPlayer(); }
@@ -51,7 +45,6 @@ public class Game {
 		dice2 = ThreadLocalRandom.current().nextInt(1, 7);
 		dice1Property.setValue(dice1);
 		dice2Property.setValue(dice2);
-		System.out.println("Dice: " + dice1 + " & " + dice2);
 	}
 
 	public int getDice1() {
@@ -109,7 +102,7 @@ public class Game {
 		playerIdTurnProperty.setValue(currentPlayer.getId() + 1);
 		newTurnDices();
 		if (!board.hasAvailableTurns(currentPlayer.getId(), dice1, dice2)) {
-			System.out.println("game ended, player " + currentPlayer.getId() + " lost");
+
 			winner = currentPlayer == player1 ? player2 : player1;
 			winnerIdProperty.setValue(winner.getId()+1);
 			gameEnded = true;

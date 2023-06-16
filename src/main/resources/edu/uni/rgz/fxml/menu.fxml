@@ -14,8 +14,6 @@
       </padding>
       <Button fx:id="cpuMatchButton" mnemonicParsing="false" prefWidth="340.0" text="Play VS CPU" onAction="#onCpuMatchButtonClick"/>
       <Button fx:id="localMatchButton" mnemonicParsing="false" prefWidth="340.0" text="Play local match" onAction="#onLocalMatchButtonClick"/>
-      <Button mnemonicParsing="false" prefWidth="340.0" text="Button idk"/>
-      <Button mnemonicParsing="false" prefWidth="340.0" text="Button idk"/>
       <Button fx:id="exitButton" mnemonicParsing="false" prefWidth="340.0" text="Exit" onAction="#onExitButtonClick"/>
    </VBox>
 </AnchorPane>
