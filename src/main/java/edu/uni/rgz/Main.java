@@ -3,10 +3,8 @@ package edu.uni.rgz;
 import edu.uni.rgz.controllers.MenuController;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import edu.uni.rgz.controllers.GameController;
 import java.io.IOException;
@@ -28,7 +26,6 @@ public class Main extends Application {
 		menuScene = new Scene(loader.load(), WINDOW_WIDTH, WINDOW_HEIGHT);
 		menuController = loader.getController();
 
-//		stage.setOnShown();
 		stage.setResizable(false);
 		stage.setTitle("Quadratum");
 
@@ -37,10 +34,7 @@ public class Main extends Application {
 
 		gameScene = new Scene(loader.load(), WINDOW_WIDTH, WINDOW_HEIGHT);
 		gameController = loader.getController();
-//		menuController.setGameRoot(loader.load());
 		menuController.setGameController(gameController);
-
-//		stage.setOnShown(gameController::setup);
 
 		stage.setOnCloseRequest(event -> {
 			Platform.exit();

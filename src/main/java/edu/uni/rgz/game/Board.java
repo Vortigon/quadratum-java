@@ -18,6 +18,14 @@ public class Board {
 		this.bottomRightPlayerID = bottomRightPlayerID;
 	}
 
+	public int getRows() {
+		return rows;
+	}
+
+	public int getColumns() {
+		return columns;
+	}
+
 	public boolean checkCellBounds(int row, int col) {
 		return row >= 0 && col >= 0 && row < rows && col < columns;
 	}
@@ -85,16 +93,6 @@ public class Board {
 		return cellCheckPassed;
 	}
 
-	public void printBoard() {
-		for (int row = 0; row < rows; ++row) {
-			System.out.print("[");
-			for (int col = 0; col < columns; ++col) {
-				System.out.print(board[row][col] + " ");
-			}
-			System.out.println("]");
-		}
-	}
-
 	public void makeTurn(Turn turn) {
 		int row1 = Math.min(turn.getBeginCellRow(), turn.getEndCellRow());
 		int row2 = Math.max(turn.getBeginCellRow(), turn.getEndCellRow());
@@ -160,7 +158,6 @@ public class Board {
 
 		for (int row = 0; row < rows; ++row) {
 			for (int col = 0; col < columns; ++col) {
-//				System.out.println("" + row + " " + col);
 				if (!checkCellBounds(row, col)) { return false; }
 				if (dice1 == 1 && dice2 == 1 && board[row][col] == -1) { return true; }
 
@@ -168,31 +165,26 @@ public class Board {
 				if (dice1 == dice2) {
 					turn = new Turn(playerID, row, col, row-dice1+1, col+dice2-1, dice1, dice2);
 					if (checkTurn(turn)) {
-						if (playerID == 1) System.out.println(turn + " PASSED 1");
 						return true;
 					}
 				} else if (dice1 == 1 || dice2 == 1) {
 					int dice = Math.max(dice1, dice2);
 					turn = new Turn(playerID, row, col, row-dice+1, col, dice1, dice2);
 					if (checkTurn(turn)) {
-						if (playerID == 1) System.out.println(turn + " PASSED 2");
 						return true;
 					}
 
 					turn = new Turn(playerID, row, col, row, col+dice-1, dice1, dice2);
 					if (checkTurn(turn)) {
-						if (playerID == 1) System.out.println(turn  +" PASSED 3");
 						return true;
 					}
 				} else {
 					turn = new Turn(playerID, row, col, row-dice1+1, col+dice2-1, dice1, dice2);
 					if (checkTurn(turn)) {
-						if (playerID == 1) System.out.println(turn + " PASSED 4");
 						return true;
 					}
 					turn = new Turn(playerID, row, col, row-dice2+1, col+dice1-1, dice1, dice2);
 					if (checkTurn(turn)) {
-						if (playerID == 1) System.out.println(turn + " PASSED 5");
 						return true;
 					}
 				}

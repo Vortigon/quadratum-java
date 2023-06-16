@@ -15,8 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.WindowEvent;
 
-import java.util.ArrayList;
-
 public class GameController {
 	private Game gameInstance;
 	@FXML private AnchorPane gameRoot;
@@ -27,7 +25,6 @@ public class GameController {
 	@FXML private Label winnerLabel;
 	private Grid grid;
 
-	private LocalPlayer drawingPlayer;
 	private Rectangle drawingRectangle = null;
 	private Turn drawingRectangleTurn = null;
 	private double drawingStartX, drawingStartY;
@@ -61,10 +58,6 @@ public class GameController {
 	}
 
 	public void setupMouseHandling() {
-		gameRoot.getScene().setOnKeyReleased((KeyEvent keyEvent) -> {
-			if (keyEvent.getCode() == KeyCode.P) { gameInstance.getBoard().printBoard(); }
-		});
-
 		gameRoot.getScene().setOnMousePressed((MouseEvent event) -> {
 			if (gameInstance.isGameEnded() || !(gameInstance.getCurrentPlayer() instanceof LocalPlayer)) { return; }
 
@@ -72,11 +65,7 @@ public class GameController {
 			drawingStartColumn = grid.getCellColumn(event.getX());
 			drawingRow = drawingStartRow;
 			drawingColumn = drawingStartColumn;
-//			if (!gameInstance.getBoard()
-//					.checkCell(drawingStartRow, drawingStartColumn, gameInstance.getCurrentPlayer().getId()))
-//				{
-//					return;
-//				}
+
 			drawingStartX = grid.getCellX(drawingStartColumn);
 			drawingStartY = grid.getCellY(drawingStartRow);
 			drawingRectangle = new Rectangle(drawingStartX, drawingStartY, grid.getCellWidth(), grid.getCellHeight());
@@ -92,8 +81,6 @@ public class GameController {
 				drawingRectangle.setOpacity(0.8);
 				drawingRectangle.setFill(gameInstance.getCurrentPlayer().getColor());
 				gameInstance.makeTurn(drawingRectangleTurn);
-
-				System.out.println("Current player: " + gameInstance.getCurrentPlayer().getId());
 			} else {
 				paneWithGrid.getChildren().remove(drawingRectangle);
 			}
@@ -107,7 +94,6 @@ public class GameController {
 			double eventCellX = grid.getCellX(eventCellColumn);
 			double eventCellY = grid.getCellY(eventCellRow);
 
-//			System.out.println("EVENT: " + eventCellRow + ":" + eventCellColumn);
 			if (eventCellColumn < grid.getCellColumn(drawingRectangle.getX())) {
 				drawingRectangle.setX(eventCellX);
 				drawingRectangle.setWidth(grid.getCellWidth() * (1 + drawingStartColumn - eventCellColumn));
@@ -178,7 +164,6 @@ public class GameController {
 	}
 
 	public void addBotRectangle(BotPlayer bot) {
-			System.out.println("I'm ALIVE");
 			Turn newTurn = bot.getLastTurn();
 			int col1 = Math.min(newTurn.getBeginCellColumn(), newTurn.getEndCellColumn());
 			int col2 = Math.max(newTurn.getBeginCellColumn(), newTurn.getEndCellColumn());
