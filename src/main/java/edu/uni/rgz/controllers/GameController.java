@@ -58,10 +58,6 @@ public class GameController {
 	}
 
 	public void setupMouseHandling() {
-		gameRoot.getScene().setOnKeyReleased((KeyEvent keyEvent) -> {
-			if (keyEvent.getCode() == KeyCode.P) { gameInstance.getBoard().printBoard(); }
-		});
-
 		gameRoot.getScene().setOnMousePressed((MouseEvent event) -> {
 			if (gameInstance.isGameEnded() || !(gameInstance.getCurrentPlayer() instanceof LocalPlayer)) { return; }
 
@@ -85,8 +81,6 @@ public class GameController {
 				drawingRectangle.setOpacity(0.8);
 				drawingRectangle.setFill(gameInstance.getCurrentPlayer().getColor());
 				gameInstance.makeTurn(drawingRectangleTurn);
-
-				System.out.println("Current player: " + gameInstance.getCurrentPlayer().getId());
 			} else {
 				paneWithGrid.getChildren().remove(drawingRectangle);
 			}
@@ -170,7 +164,6 @@ public class GameController {
 	}
 
 	public void addBotRectangle(BotPlayer bot) {
-			System.out.println("I'm ALIVE");
 			Turn newTurn = bot.getLastTurn();
 			int col1 = Math.min(newTurn.getBeginCellColumn(), newTurn.getEndCellColumn());
 			int col2 = Math.max(newTurn.getBeginCellColumn(), newTurn.getEndCellColumn());

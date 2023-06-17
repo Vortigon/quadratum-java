@@ -18,6 +18,14 @@ public class Board {
 		this.bottomRightPlayerID = bottomRightPlayerID;
 	}
 
+	public int getRows() {
+		return rows;
+	}
+
+	public int getColumns() {
+		return columns;
+	}
+
 	public boolean checkCellBounds(int row, int col) {
 		return row >= 0 && col >= 0 && row < rows && col < columns;
 	}

@@ -40,38 +40,12 @@ public class BotPlayer extends Player {
 		return lastTurn;
 	}
 
-	public void updateInfo(Board board, Turn newTurn, int dice1, int dice2) {
-		for (int i = 0; i < availableCells.size();) {
-			int row = availableCells.get(i).row, col = availableCells.get(i).col;
-			if (!board.cellHasTurns(row, col, getId(), dice1, dice2)) {
-				availableCells.remove(i);
-			} else {
-				++i;
-			}
-		}
-
-		if (newTurn.getPlayerId() == this.getId()) {
-			int col1 = Math.min(newTurn.getBeginCellColumn(), newTurn.getEndCellColumn());
-			int col2 = Math.max(newTurn.getBeginCellColumn(), newTurn.getEndCellColumn());
-			int row1 = Math.min(newTurn.getBeginCellRow(), newTurn.getEndCellRow());
-			int row2 = Math.max(newTurn.getBeginCellRow(), newTurn.getEndCellRow());
-
-
-			for (int row = row1; row <= row2; ++row) {
-				if (board.cellHasTurns(row, col1-1, getId(), dice1, dice2)) {
-					availableCells.add(new Cell(row, col1-1));
-				}
-				if (board.cellHasTurns(row, col2+1, getId(), dice1, dice2)) {
-					availableCells.add(new Cell(row, col2+1));
-				}
-			}
-
-			for (int col = col1; col <= col2; ++col) {
-				if (board.cellHasTurns(row1-1, col, getId(), dice1, dice2)) {
-					availableCells.add(new Cell(row1-1, col));
-				}
-				if (board.cellHasTurns(row2+1, col, getId(), dice1, dice2)) {
-					availableCells.add(new Cell(row2+1, col));
+	public void updateInfo(Board board, int dice1, int dice2) {
+		availableCells = new ArrayList<>();
+		for (int row = 0; row < board.getRows(); ++row) {
+			for (int col = 0; col < board.getColumns(); ++col) {
+				if (board.cellHasTurns(row, col, getId(), dice1, dice2)) {
+					availableCells.add(new Cell(row, col));
 				}
 			}
 		}

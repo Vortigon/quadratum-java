@@ -108,14 +108,13 @@ public class Game {
 			gameEnded = true;
 			gameEndedProperty.setValue(true);
 		} else if (currentPlayer instanceof BotPlayer bot) {
-			bot.updateInfo(board, turn, dice1, dice2);
+			bot.updateInfo(board, dice1, dice2);
 			board.makeTurn(bot.makeTurn(board, dice1, dice2));
 			bot.addScore(dice1 * dice2);
 			controller.addBotRectangle(bot);
 			currentPlayer = currentPlayer == player1 ? player2 : player1;
 			playerIdTurnProperty.setValue(currentPlayer.getId() + 1);
 			newTurnDices();
-			bot.updateInfo(board, bot.getLastTurn(), dice1, dice2);
 		}
 	}
 }
