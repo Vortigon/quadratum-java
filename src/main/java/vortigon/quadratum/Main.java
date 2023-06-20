@@ -1,17 +1,18 @@
-package edu.uni.rgz;
+package vortigon.quadratum;
 
-import edu.uni.rgz.controllers.MenuController;
+import vortigon.quadratum.controllers.MenuController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import edu.uni.rgz.controllers.GameController;
+import vortigon.quadratum.controllers.GameController;
+
 import java.io.IOException;
 
 public class Main extends Application {
-	private static final int WINDOW_WIDTH = 1280;
-	private static final int WINDOW_HEIGHT = 720;
+	private static final int WINDOW_WIDTH = 800;
+	private static final int WINDOW_HEIGHT = 600;
 	private static Stage primaryStage;
 	private static Scene gameScene, menuScene;
 	private static MenuController menuController;
@@ -20,7 +21,7 @@ public class Main extends Application {
 	public void start(Stage stage) throws IOException {
 
 		primaryStage = stage;
-		FXMLLoader loader = new FXMLLoader((getClass().getResource("/edu/uni/rgz/fxml/menu.fxml")));
+		FXMLLoader loader = new FXMLLoader((getClass().getResource("/vortigon/quadratum/fxml/menu.fxml")));
 		loader.setControllerFactory(controllerClass -> new MenuController());
 
 		menuScene = new Scene(loader.load(), WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -29,7 +30,7 @@ public class Main extends Application {
 		stage.setResizable(false);
 		stage.setTitle("Quadratum");
 
-		loader = new FXMLLoader((getClass().getResource("/edu/uni/rgz/fxml/game.fxml")));
+		loader = new FXMLLoader((getClass().getResource("/vortigon/quadratum/fxml/game.fxml")));
 		loader.setControllerFactory(controllerClass ->new GameController());
 
 		gameScene = new Scene(loader.load(), WINDOW_WIDTH, WINDOW_HEIGHT);

@@ -1,4 +1,4 @@
-package edu.uni.rgz.game;
+package vortigon.quadratum.game;
 
 public class LocalPlayer extends Player {
 

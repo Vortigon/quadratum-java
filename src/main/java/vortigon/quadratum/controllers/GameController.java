@@ -1,13 +1,14 @@
-package edu.uni.rgz.controllers;
+package vortigon.quadratum.controllers;
 
-import edu.uni.rgz.Main;
-import edu.uni.rgz.game.*;
-import edu.uni.rgz.view.Grid;
+import vortigon.quadratum.Main;
+import vortigon.quadratum.game.BotPlayer;
+import vortigon.quadratum.game.Game;
+import vortigon.quadratum.game.LocalPlayer;
+import vortigon.quadratum.game.Turn;
+import vortigon.quadratum.view.Grid;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;

@@ -1,4 +1,4 @@
-package edu.uni.rgz.game;
+package vortigon.quadratum.game;
 
 public class Turn {
 	private final int madeByPlayerId;

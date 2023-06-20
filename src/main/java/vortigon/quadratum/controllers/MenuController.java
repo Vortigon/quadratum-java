@@ -1,6 +1,6 @@
-package edu.uni.rgz.controllers;
+package vortigon.quadratum.controllers;
 
-import edu.uni.rgz.Main;
+import vortigon.quadratum.Main;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
