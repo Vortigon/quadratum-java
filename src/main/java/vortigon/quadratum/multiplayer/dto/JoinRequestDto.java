@@ -1,4 +1,4 @@
-package edu.uni.rgz.multiplayer.dto;
+package vortigon.quadratum.multiplayer.dto;
 
 public class JoinRequestDto {
 	private int toHostId, fromGuestId;
