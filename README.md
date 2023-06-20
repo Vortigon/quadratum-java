@@ -1,2 +1,2 @@
-# РГЗ 4 семестр
+# Quadratum
 ## Made by Vortigon
