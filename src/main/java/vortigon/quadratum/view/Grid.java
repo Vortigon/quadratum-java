@@ -1,4 +1,4 @@
-package edu.uni.rgz.view;
+package vortigon.quadratum.view;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;

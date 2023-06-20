@@ -1,4 +1,4 @@
-package edu.uni.rgz.game;
+package vortigon.quadratum.game;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;

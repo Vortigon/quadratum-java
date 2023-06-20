@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="menuRoot" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vortigon.quadratum.controllers.MenuController">
+   <Label text="Quadratum" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="50.0">
+      <font>
+         <Font name="System Bold Italic" size="56.0" />
+      </font>
+   </Label>
+   <VBox prefHeight="720.0" prefWidth="1280.0" spacing="40.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="200.0">
+      <padding>
+         <Insets bottom="10.0" left="70.0" right="70.0" top="10.0" />
+      </padding>
+      <Button fx:id="cpuMatchButton" mnemonicParsing="false" onAction="#onCpuMatchButtonClick" prefWidth="340.0" text="Play VS CPU" />
+      <Button fx:id="localMatchButton" mnemonicParsing="false" onAction="#onLocalMatchButtonClick" prefWidth="340.0" text="Play local match" />
+      <Button fx:id="exitButton" mnemonicParsing="false" onAction="#onExitButtonClick" prefWidth="340.0" text="Exit" />
+   </VBox>
+</AnchorPane>

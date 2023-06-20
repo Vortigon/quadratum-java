@@ -1,4 +1,4 @@
-package edu.uni.rgz.game;
+package vortigon.quadratum.game;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.paint.Color;

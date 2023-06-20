@@ -1,6 +1,6 @@
-package edu.uni.rgz.game;
+package vortigon.quadratum.game;
 
-import edu.uni.rgz.controllers.GameController;
+import vortigon.quadratum.controllers.GameController;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.paint.Color;
