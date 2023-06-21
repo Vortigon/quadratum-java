@@ -15,7 +15,7 @@ public class Game {
 	private SimpleIntegerProperty dice1Property = new SimpleIntegerProperty(), dice2Property = new SimpleIntegerProperty();
 	private int dice1, dice2;
 	private boolean gameEnded = false;
-	private SimpleBooleanProperty gameEndedProperty = new SimpleBooleanProperty(gameEnded);
+	private SimpleBooleanProperty gameEndedProperty = new SimpleBooleanProperty(false);
 	private SimpleIntegerProperty winnerIdProperty = new SimpleIntegerProperty();
 	private Player winner = null;
 	private GameController controller;
@@ -101,7 +101,7 @@ public class Game {
 		currentPlayer = currentPlayer == player1 ? player2 : player1;
 		playerIdTurnProperty.setValue(currentPlayer.getId() + 1);
 		newTurnDices();
-		if (!board.hasAvailableTurns(currentPlayer.getId(), dice1, dice2)) {
+		if (!board.playerHasAvailableTurns(currentPlayer.getId(), dice1, dice2)) {
 
 			winner = currentPlayer == player1 ? player2 : player1;
 			winnerIdProperty.setValue(winner.getId()+1);

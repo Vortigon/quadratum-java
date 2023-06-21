@@ -18,6 +18,23 @@ public class Board {
 		this.bottomRightPlayerID = bottomRightPlayerID;
 	}
 
+	public static class Cell {
+		private int row, col;
+
+		public Cell(int row, int col) {
+			this.row = row;
+			this.col = col;
+		}
+
+		public int getCol() {
+			return col;
+		}
+
+		public int getRow() {
+			return row;
+		}
+	}
+
 	public int getRows() {
 		return rows;
 	}
@@ -30,11 +47,14 @@ public class Board {
 		return row >= 0 && col >= 0 && row < rows && col < columns;
 	}
 
-	public boolean checkCell(int row, int col, int playerID) {
+	public boolean checkCellOccupied(int row, int col) { return board[row][col] != -1; }
+
+	public boolean checkCellNeighbours(int row, int col, int playerID) {
 		if (playerID != upLeftPlayerID && playerID != bottomRightPlayerID)
 		{ throw new RuntimeException("Invalid playerID"); }
-		if (row == rows-1 && col == columns-1 && playerID == bottomRightPlayerID) { return true; }
-		if (row == 0 && col == 0 && playerID == upLeftPlayerID) { return true; }
+		if ((playerID == bottomRightPlayerID && row == rows-1 && col == columns-1)
+				|| (playerID == upLeftPlayerID && row == 0 && col == 0))
+		{ return true; }
 
 		return (row > 0 && board[row - 1][col] == playerID)
 				|| (row < rows - 1 && board[row + 1][col] == playerID)
@@ -46,13 +66,14 @@ public class Board {
 		if (!checkCellBounds(turn.getBeginCellRow(), turn.getBeginCellColumn())) { return false; }
 		if (!checkCellBounds(turn.getEndCellRow(), turn.getEndCellColumn())) { return false; }
 
-		int cellsX = turn.getBeginCellColumn() - turn.getEndCellColumn();
-		if (cellsX < 0) { cellsX = -cellsX; }
-		cellsX += 1;
+		int col1 = Math.min(turn.getBeginCellColumn(), turn.getEndCellColumn());
+		int col2 = Math.max(turn.getBeginCellColumn(), turn.getEndCellColumn());
 
-		int cellsY = turn.getBeginCellRow() - turn.getEndCellRow();
-		if (cellsY < 0) { cellsY = -cellsY; }
-		cellsY += 1;
+		int row1 = Math.min(turn.getBeginCellRow(), turn.getEndCellRow());
+		int row2 = Math.max(turn.getBeginCellRow(), turn.getEndCellRow());
+
+		int cellsX = col2 - col1 + 1;
+		int cellsY = row2 - row1 + 1;
 
 		if (!((cellsX == turn.getDice1() && cellsY == turn.getDice2())
 				|| (cellsX == turn.getDice2() && cellsY == turn.getDice1()))
@@ -60,35 +81,28 @@ public class Board {
 
 		boolean cellCheckPassed = false;
 
-		int col1 = Math.min(turn.getBeginCellColumn(), turn.getEndCellColumn());
-		int col2 = Math.max(turn.getBeginCellColumn(), turn.getEndCellColumn());
-
-		int row1 = turn.getBeginCellRow();
-		int row2 = turn.getEndCellRow();
-		while (col1 <= col2) {
-			if (board[row1][col1] != -1 || board[row2][col1] != -1) { return false; }
+		int iter = col1;
+		while (iter <= col2) {
+			if (checkCellOccupied(row1, iter) || checkCellOccupied(row2, iter)) { return false; }
 			if (!cellCheckPassed) {
-				if (checkCell(row1, col1, turn.getPlayerId()) || checkCell(row2, col1, turn.getPlayerId())) {
+				if (checkCellNeighbours(row1, iter, turn.getPlayerId())
+						|| (row1 != row2 && checkCellNeighbours(row2, iter, turn.getPlayerId()))) {
 					cellCheckPassed = true;
 				}
 			}
-			++col1;
+			++iter;
 		}
 
-		row1 = Math.min(turn.getBeginCellRow(), turn.getEndCellRow());
-		row2 = Math.max(turn.getBeginCellRow(), turn.getEndCellRow());
-
-		col1 = turn.getBeginCellColumn();
-		col2 = turn.getEndCellColumn();
-
-		while (row1 <= row2) {
-			if (board[row1][col1] != -1 || board[row1][col2] != -1) { return false; }
+		iter = row1;
+		while (iter <= row2) {
+			if (checkCellOccupied(iter, col1) || checkCellOccupied(iter, col2)) { return false; }
 			if (!cellCheckPassed) {
-				if (checkCell(row1, col1, turn.getPlayerId()) || checkCell(row1, col2, turn.getPlayerId())) {
+				if (checkCellNeighbours(iter, col1, turn.getPlayerId())
+						|| (col1 != col2 && checkCellNeighbours(iter, col2, turn.getPlayerId()))) {
 					cellCheckPassed = true;
 				}
 			}
-			++row1;
+			++iter;
 		}
 		return cellCheckPassed;
 	}
@@ -108,58 +122,64 @@ public class Board {
 
 	public boolean cellHasTurns(int row, int col, int playerID, int dice1, int dice2) {
 		if (!checkCellBounds(row, col)) { return false; }
-		if (dice1 == 1 && dice2 == 1 && board[row][col] == -1) { return true; }
-
-		Turn turn;
-		if (dice1 == dice2) {
-			turn = new Turn(playerID, row, col, row+dice1-1, col+dice2-1, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
-			turn = new Turn(playerID, row, col, row+dice1-1, col-dice2+1, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
-			turn = new Turn(playerID, row, col, row-dice1+1, col-dice2+1, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
-			turn = new Turn(playerID, row, col, row-dice1+1, col+dice2-1, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
-		} else if (dice1 == 1 || dice2 == 1) {
-			int dice = Math.max(dice1, dice2);
-
-			turn = new Turn(playerID, row, col, row+dice-1, col, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
-			turn = new Turn(playerID, row, col, row-dice+1, col, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
-			turn = new Turn(playerID, row, col, row, col+dice-1, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
-			turn = new Turn(playerID, row, col, row, col-dice+1, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
-		} else {
-			turn = new Turn(playerID, row, col, row+dice1-1, col+dice2-1, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
-			turn = new Turn(playerID, row, col, row+dice1-1, col-dice2+1, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
-			turn = new Turn(playerID, row, col, row-dice1+1, col-dice2+1, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
-			turn = new Turn(playerID, row, col, row-dice1+1, col+dice2-1, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
-			turn = new Turn(playerID, row, col, row+dice2-1, col+dice1-1, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
-			turn = new Turn(playerID, row, col, row+dice2-1, col-dice1+1, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
-			turn = new Turn(playerID, row, col, row-dice2+1, col-dice1+1, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
-			turn = new Turn(playerID, row, col, row-dice2+1, col+dice1-1, dice1, dice2);
-			if (checkTurn(turn)) { return true; }
+		if (dice1 == 1 && dice2 == 1 && !checkCellOccupied(row, col) && checkCellNeighbours(row, col, playerID)) {
+			return true;
 		}
+
+		final int[] deltas = {-1, 1};
+
+		if (dice1 == dice2) {
+			for (int rowDelta : deltas) {
+				for (int colDelta : deltas) {
+					int newRow = row + dice1 * rowDelta - rowDelta,
+						newCol = col + dice2 * colDelta - colDelta;
+
+					if (checkTurn(new Turn(playerID, row, col, newRow, newCol, dice1, dice2))) {
+						return true;
+					}
+				}
+			}
+ 		}
+
+		if (dice1 == 1 || dice2 == 1) {
+			for (int delta : deltas) {
+				int newRow = row + Math.max(dice1, dice2) * delta - delta;
+				int newCol = newRow - row + col;
+
+				if (checkTurn(new Turn(playerID, row, col, newRow, col, dice1, dice2))
+						|| checkTurn(new Turn(playerID, row, col, row, newCol, dice1, dice2))) {
+					return true;
+				}
+			}
+		}
+
+		for (int rowDelta : deltas) {
+			for (int colDelta : deltas) {
+				int newRow1 = row + dice1 * rowDelta - rowDelta;
+				int newRow2 = row + dice2 * rowDelta - rowDelta;
+				int newCol1 = col + dice1 * colDelta - colDelta;
+				int newCol2 = col + dice2 * colDelta - colDelta;
+
+				if (checkTurn(new Turn(playerID, row, col, newRow1, newCol2, dice1, dice2))
+						|| checkTurn(new Turn(playerID, row, col, newRow2, newCol1, dice1, dice2))) {
+					return true;
+				}
+			}
+		}
+
 		return false;
 	}
 
-	public boolean hasAvailableTurns(int playerID, int dice1, int dice2) {
+	public boolean playerHasAvailableTurns(int playerID, int dice1, int dice2) {
 		if (playerID != upLeftPlayerID && playerID != bottomRightPlayerID)
 			{ throw new RuntimeException("Invalid playerID"); }
 
 		for (int row = 0; row < rows; ++row) {
 			for (int col = 0; col < columns; ++col) {
 				if (!checkCellBounds(row, col)) { return false; }
-				if (dice1 == 1 && dice2 == 1 && board[row][col] == -1) { return true; }
+				if (dice1 == 1 && dice2 == 1 && !checkCellOccupied(row, col) && checkCellNeighbours(row, col, playerID)) {
+					return true;
+				}
 
 				Turn turn;
 				if (dice1 == dice2) {

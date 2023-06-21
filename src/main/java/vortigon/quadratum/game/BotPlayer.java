@@ -1,29 +1,11 @@
 package vortigon.quadratum.game;
+import vortigon.quadratum.game.Board.Cell;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
-
 public class BotPlayer extends Player {
-	private class Cell {
-		private int row, col;
-
-		public Cell(int row, int col) {
-			this.row = row;
-			this.col = col;
-		}
-
-		public int getCol() {
-			return col;
-		}
-
-		public int getRow() {
-			return row;
-		}
-	}
-
 	private ArrayList<Cell> availableCells = new ArrayList<>();
 	private Turn lastTurn = null;
-
 
 	public BotPlayer() {
 	}
@@ -54,19 +36,19 @@ public class BotPlayer extends Player {
 	public Turn makeTurn(Board board, int dice1, int dice2) {
 		Cell beginCell = availableCells.get(ThreadLocalRandom.current().nextInt(0, availableCells.size()));
 		Cell[] endCells = new Cell[8];
-		endCells[0] = new Cell(beginCell.row+dice1-1, beginCell.col+dice2-1);
-		endCells[1] = new Cell(beginCell.row+dice1-1, beginCell.col-dice2+1);
-		endCells[2] = new Cell(beginCell.row-dice1+1, beginCell.col-dice2+1);
-		endCells[3] = new Cell(beginCell.row-dice1+1, beginCell.col+dice2-1);
-		endCells[4] = new Cell(beginCell.row+dice2-1, beginCell.col+dice1-1);
-		endCells[5] = new Cell(beginCell.row+dice2-1, beginCell.col-dice1+1);
-		endCells[6] = new Cell(beginCell.row-dice2+1, beginCell.col-dice1+1);
-		endCells[7] = new Cell(beginCell.row-dice2+1, beginCell.col+dice1-1);
+		endCells[0] = new Cell(beginCell.getRow() + dice1-1, beginCell.getCol() + dice2-1);
+		endCells[1] = new Cell(beginCell.getRow() + dice1-1, beginCell.getCol() - dice2+1);
+		endCells[2] = new Cell(beginCell.getRow() - dice1+1, beginCell.getCol() - dice2+1);
+		endCells[3] = new Cell(beginCell.getRow() - dice1+1, beginCell.getCol() + dice2-1);
+		endCells[4] = new Cell(beginCell.getRow() + dice2-1, beginCell.getCol() + dice1-1);
+		endCells[5] = new Cell(beginCell.getRow() + dice2-1, beginCell.getCol() - dice1+1);
+		endCells[6] = new Cell(beginCell.getRow() - dice2+1, beginCell.getCol() - dice1+1);
+		endCells[7] = new Cell(beginCell.getRow() - dice2+1, beginCell.getCol() + dice1-1);
 
 		for (int i = 0; i < endCells.length; ++i) {
 			int endCell = ThreadLocalRandom.current().nextInt(0, endCells.length-i);
-			lastTurn = new Turn(getId(), beginCell.row, beginCell.col,
-					endCells[endCell].row, endCells[endCell].col, dice1, dice2);
+			lastTurn = new Turn(getId(), beginCell.getRow(), beginCell.getCol(),
+					endCells[endCell].getRow(), endCells[endCell].getCol(), dice1, dice2);
 			if (board.checkTurn(lastTurn)) {
 
 				break;
