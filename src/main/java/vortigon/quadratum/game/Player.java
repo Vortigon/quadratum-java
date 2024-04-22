@@ -8,6 +8,7 @@ public abstract class Player {
 	private Color color;
 	private int score = 0;
 	private SimpleIntegerProperty scoreProperty = new SimpleIntegerProperty();
+	private Board.Corner beginCorner;
 
 	public Player() {
 	}
@@ -33,11 +34,17 @@ public abstract class Player {
 		this.color = color;
 	}
 
+	public void setBeginCorner(Board.Corner corner) { beginCorner = corner; }
+
 	public int getId() {
 		return id;
 	}
 
 	public Color getColor() {
 		return color;
+	}
+
+	public Board.Corner getBeginCorner() {
+		return beginCorner;
 	}
 }

@@ -1,11 +1,20 @@
 package vortigon.quadratum.game;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Board {
 	private int rows, columns;
 	private int[][] board;
 	private final int upLeftPlayerID, bottomRightPlayerID;
+
+	public enum Corner {
+		UP_LEFT,
+		UP_RIGHT,
+		BOTTOM_LEFT,
+		BOTTOM_RIGHT
+	}
 
 	public Board(int rows, int columns, int upLeftPlayerID, int bottomRightPlayerID) {
 		this.rows = rows;
@@ -168,6 +177,43 @@ public class Board {
 		}
 
 		return false;
+	}
+
+	public List<Cell> getAvailableCells(int playerID, int dice1, int dice2) {
+		LinkedList<Cell> availableCells = new LinkedList<>();
+
+		if (playerID != upLeftPlayerID && playerID != bottomRightPlayerID)
+		{ return availableCells; }
+
+		for (int row = 0; row < rows; ++row) {
+			int newRow1 = row-dice1+1;
+			int newRow2 = row-dice2+1;
+
+			for (int col = 0; col < columns; ++col) {
+				if (!checkCellBounds(row, col)) { continue; }
+				if (dice1 == 1 && dice2 == 1 && !checkCellOccupied(row, col) && checkCellNeighbours(row, col, playerID)) {
+					availableCells.add(new Cell(row, col));
+				} else if (dice1 == dice2) {
+					if (checkTurn(new Turn(playerID, row, col, newRow1, col+dice2-1, dice1, dice2))) {
+						availableCells.add(new Cell(row, col));
+					}
+				} else if (dice1 == 1 || dice2 == 1) {
+					int newRow = dice1 > dice2 ? newRow1 : newRow2;
+					int newCol = newRow - row + col;
+					if (checkTurn(new Turn(playerID, row, col, newRow, col, dice1, dice2))
+							|| checkTurn(new Turn(playerID, row, col, row, newCol, dice1, dice2))) {
+						availableCells.add(new Cell(row, col));
+					}
+				} else {
+					if (checkTurn(new Turn(playerID, row, col, newRow1, col+dice2-1, dice1, dice2))
+							|| checkTurn(new Turn(playerID, row, col, newRow2, col+dice1-1, dice1, dice2))) {
+						availableCells.add(new Cell(row, col));
+					}
+				}
+			}
+		}
+
+		return availableCells;
 	}
 
 	public boolean playerHasAvailableTurns(int playerID, int dice1, int dice2) {

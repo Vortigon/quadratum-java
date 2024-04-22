@@ -25,8 +25,10 @@ public class Game {
 		this.player2 = player2;
 		player1.setId(0);
 		player1.setColor(Color.PURPLE);
+		player1.setBeginCorner(Board.Corner.UP_LEFT);
 		player2.setId(1);
 		player2.setColor(Color.CRIMSON);
+		player2.setBeginCorner(Board.Corner.BOTTOM_RIGHT);
 		board = new Board(width, height, 0, 1);
 		this.controller = controller;
 		if (player1 instanceof BotPlayer bot) { bot.setupUpLeftPlayer(); }
@@ -95,6 +97,13 @@ public class Game {
 		return winner;
 	}
 
+	private void endGame() {
+		winner = currentPlayer == player1 ? player2 : player1;
+		winnerIdProperty.setValue(winner.getId()+1);
+		gameEnded = true;
+		gameEndedProperty.setValue(true);
+	}
+
 	public void makeTurn(Turn turn) {
 		board.makeTurn(turn);
 		currentPlayer.addScore(dice1 * dice2);
@@ -102,19 +111,19 @@ public class Game {
 		playerIdTurnProperty.setValue(currentPlayer.getId() + 1);
 		newTurnDices();
 		if (!board.playerHasAvailableTurns(currentPlayer.getId(), dice1, dice2)) {
-
-			winner = currentPlayer == player1 ? player2 : player1;
-			winnerIdProperty.setValue(winner.getId()+1);
-			gameEnded = true;
-			gameEndedProperty.setValue(true);
+			endGame();
 		} else if (currentPlayer instanceof BotPlayer bot) {
-			bot.updateInfo(board, dice1, dice2);
-			board.makeTurn(bot.makeTurn(board, dice1, dice2));
-			bot.addScore(dice1 * dice2);
-			controller.addBotRectangle(bot);
-			currentPlayer = currentPlayer == player1 ? player2 : player1;
-			playerIdTurnProperty.setValue(currentPlayer.getId() + 1);
-			newTurnDices();
+			try {
+				board.makeTurn(bot.makeTurn(board, dice1, dice2));
+				bot.addScore(dice1 * dice2);
+				controller.addBotRectangle(bot);
+				currentPlayer = currentPlayer == player1 ? player2 : player1;
+				playerIdTurnProperty.setValue(currentPlayer.getId() + 1);
+				newTurnDices();
+			} catch (BotPlayer.NoAvailableTurnsException e) {
+				System.out.println(e.getMessage());
+				endGame();
+			}
 		}
 	}
 }
