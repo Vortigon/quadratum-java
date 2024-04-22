@@ -1,4 +1,4 @@
-package edu.uni.rgz.multiplayer;
+package vortigon.quadratum.multiplayer;
 
 public class Room {
 	private int hostId, guestId = -1;

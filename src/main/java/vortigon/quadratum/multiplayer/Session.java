@@ -1,6 +1,6 @@
-package edu.uni.rgz.multiplayer;
+package vortigon.quadratum.multiplayer;
 
-import edu.uni.rgz.multiplayer.dto.*;
+import vortigon.quadratum.multiplayer.dto.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

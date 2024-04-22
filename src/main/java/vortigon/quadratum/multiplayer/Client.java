@@ -1,18 +1,15 @@
-package edu.uni.rgz.multiplayer;
+package vortigon.quadratum.multiplayer;
 
-import edu.uni.rgz.multiplayer.dto.ConnectedClientsIdListDto;
-import edu.uni.rgz.multiplayer.dto.CreateRoomRequestDto;
-import edu.uni.rgz.multiplayer.dto.DisconnectRequestDto;
-import edu.uni.rgz.multiplayer.dto.JoinRequestDto;
-import javafx.application.Platform;
-import javafx.beans.property.SimpleBooleanProperty;
+import vortigon.quadratum.multiplayer.dto.ConnectedClientsIdListDto;
+import vortigon.quadratum.multiplayer.dto.CreateRoomRequestDto;
+import vortigon.quadratum.multiplayer.dto.DisconnectRequestDto;
+import vortigon.quadratum.multiplayer.dto.JoinRequestDto;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Predicate;
 
 public class Client extends Thread {
 	private Socket socket;
@@ -22,13 +19,11 @@ public class Client extends Thread {
 	private ObjectInputStream in;
 	private int sessionId;
 	private Room createdRoom;
-//	private Habitat habitat;
 	private List<Integer> connectedClientsIds;
 	private List<Room> rooms;
 
 	public Client() {
 		this.isConnected = false;
-//		this.habitat = null;
 		connectedClientsIds = new LinkedList<>();
 	}
 
@@ -43,10 +38,6 @@ public class Client extends Thread {
 	public List<Integer> getConnectedClientsIds() {
 		return connectedClientsIds;
 	}
-
-//	public void setHabitat(Habitat habitat) {
-//		this.habitat = habitat;
-//	}
 
 	public void connect(String address, int port) throws Exception {
 		try {

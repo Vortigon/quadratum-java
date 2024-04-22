@@ -1,5 +1,6 @@
 package vortigon.quadratum.controllers;
 
+import javafx.scene.input.MouseButton;
 import vortigon.quadratum.Main;
 import vortigon.quadratum.game.BotPlayer;
 import vortigon.quadratum.game.Game;
@@ -60,6 +61,7 @@ public class GameController {
 
 	public void setupMouseHandling() {
 		gameRoot.getScene().setOnMousePressed((MouseEvent event) -> {
+			if (event.getButton() != MouseButton.PRIMARY) { return; }
 			if (gameInstance.isGameEnded() || !(gameInstance.getCurrentPlayer() instanceof LocalPlayer)) { return; }
 
 			drawingStartRow = grid.getCellRow(event.getY());
@@ -77,6 +79,7 @@ public class GameController {
 		});
 
 		gameRoot.getScene().setOnMouseReleased((MouseEvent event) -> {
+			if (event.getButton() != MouseButton.PRIMARY) { return; }
 			if (gameInstance.isGameEnded()) { return; }
 			if (checkDrawingRectangleTurn()) {
 				drawingRectangle.setOpacity(0.8);

@@ -1,4 +1,4 @@
-package edu.uni.rgz.multiplayer.dto;
+package vortigon.quadratum.multiplayer.dto;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,4 +1,4 @@
-package edu.uni.rgz.multiplayer;
+package vortigon.quadratum.multiplayer;
 
 import java.io.IOException;
 import java.net.InetAddress;

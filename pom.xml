@@ -6,7 +6,7 @@
 
     <groupId>vortigon.</groupId>
     <artifactId>quadratum</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <name>quadratum-java</name>
 
     <properties>
